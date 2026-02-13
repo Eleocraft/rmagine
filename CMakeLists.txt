@@ -8,6 +8,9 @@ option(RMAGINE_BUILD_TESTS "Build tests" ON)
 option(RMAGINE_BUILD_EXAMPLES "Build examples" OFF)
 option(RMAGINE_BUILD_DOCS "Build documentation" OFF)
 
+# Set cuda arch for 40 series gpus
+set(CMAKE_CUDA_ARCHITECTURES 86)
+
 set(RMAGINE_DEPENDENCY_MODE "Auto" CACHE STRING "Choose the dependency management mode.")
 set_property(CACHE RMAGINE_DEPENDENCY_MODE PROPERTY STRINGS "Local" "Auto" "Download")
 # Local: Use local packages only. This is the old default behavior until v2.3.0

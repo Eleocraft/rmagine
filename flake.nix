@@ -9,12 +9,28 @@
   outputs = { self, nixpkgs, flake-utils }:
   flake-utils.lib.eachDefaultSystem (system:
     let
-			pkgs = import nixpkgs { inherit system; };
+			pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
     in {
       devShells.default = pkgs.mkShell.override { inherit (pkgs.llvmPackages_latest) stdenv; } {
 				nativeBuildInputs = with pkgs.buildPackages; [ 
 					cmake
+          ninja
+
+          # cpu
           embree
+          
+          # GPU
+          glslang
+          vulkan-tools
+          vulkan-headers
+          vulkan-validation-layers
+          vulkan-volk
+          vulkan-loader
+          cudaPackages.cudatoolkit
+          
           boost
           eigen
           assimp
@@ -23,7 +39,11 @@
           jsoncpp
           pkg-config
 					clang-tools
+          linuxPackages_zen.nvidiaPackages.latest
 				];
+        LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath (with pkgs; [
+          linuxPackages_zen.nvidiaPackages.latest
+        ]);
       };
     }
 	);

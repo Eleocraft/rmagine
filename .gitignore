@@ -1,6 +1,7 @@
 .direnv/
 .vscode/
 build
+NVIDIA-OptiX/
 doc
 **/ext
 ext
